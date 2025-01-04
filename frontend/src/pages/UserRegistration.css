@@ -1,0 +1,105 @@
+.userRegistration {
+    padding: 88px 40px;
+}
+
+.content {
+    display: flex;
+}
+
+.leftPanel {
+    width: 80%;
+    height: 80vh;
+    margin-left: 100px;
+}
+
+.userData {
+    padding: 40px;
+
+}
+
+.userLabel {
+    margin-top: 15px;
+}
+
+.userData h2 {
+    margin-bottom: 20px;
+}
+
+.userData form p {
+    color: #A4A4A4;
+}
+
+#name {
+    color: #A4A4A4;
+    padding: 10px 20px;
+    border-radius: 8px;
+    border: 1px solid #E5E5E5;
+    margin-top: 2px;
+    width: 70%;
+}
+
+#email {
+    color: #A4A4A4;
+    padding: 10px 20px;
+    border-radius: 8px;
+    border: 1px solid #E5E5E5;
+    margin-top: 2px;
+    width: 70%;
+}
+
+#password {
+    color: #A4A4A4;
+    padding: 10px 20px;
+    border-radius: 8px;
+    border: 1px solid #E5E5E5;
+    margin-top: 2px;
+    width: 70%;
+}
+
+#cnfPassword {
+    color: #A4A4A4;
+    padding: 10px 20px;
+    border-radius: 8px;
+    border: 1px solid #E5E5E5;
+    margin-top: 5px;
+    width: 70%;
+}
+
+#register {
+    width: fit-content;
+    padding: 8px 40px;
+    margin: 20px 0px;
+    border-radius: 50px;
+    font-size: 15px;
+    background: linear-gradient(#783FED, #442487);
+    color: white;
+    border: none;
+}
+
+.userData form {
+    display: flex;
+    flex-direction: column;
+}
+
+.rightPanel {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 10px;
+    background: linear-gradient(#783FED, #442487);
+    color: #ffffff;
+    padding: 40px 60px;
+
+}
+
+.rightPanel nav ul {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.rightPanel nav ul li {
+    list-style: circle;
+    margin: 0px 10px;
+}

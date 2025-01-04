@@ -1,0 +1,16 @@
+.attendanceData table {
+    border-collapse: collapse;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.attendanceData th {
+    background: linear-gradient(#783FED, #442487);
+    color: #ffffff;
+    padding: 10px 30px;
+    text-align: center;
+}
+
+.attendanceData td {
+    padding: 8px 30px;
+}

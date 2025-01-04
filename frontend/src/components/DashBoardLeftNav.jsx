@@ -1,0 +1,28 @@
+import React from "react";
+
+function DashBoardLeftNav(props) {
+  return (
+    <div style={styles.container}>
+      <img src={props.path} alt="Logo" />{" "}
+      <p style={styles.font}>{props.text}</p>
+    </div>
+  );
+}
+
+const styles = {
+  container: {
+    display: "flex",
+    flexDirection: "row",
+    gap: 10,
+    marginTop: 15,
+    marginLeft: 20,
+  },
+
+  font: {
+    fontSize: 16,
+    color: "#121212",
+    fontWeight: 400,
+  },
+};
+
+export default DashBoardLeftNav;

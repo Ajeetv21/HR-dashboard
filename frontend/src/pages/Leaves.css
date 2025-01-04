@@ -1,0 +1,84 @@
+
+
+.leaveData {
+    display: flex;
+    justify-content: space-between;
+}
+
+.leaveData table {
+    border-collapse: collapse;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 10px 10px 20px 10px #cfcbcb;
+}
+
+.tableHeading {
+    background: linear-gradient(#783FED, #442487);
+    color: #ffffff;
+}
+
+.leaveData th {
+    padding: 10px 20px;
+    text-align: center;
+}
+
+.leaveData td {
+    padding: 8px 20px;
+}
+
+.heading {
+    background: linear-gradient(#783FED, #442487);
+    color: #ffffff;
+    padding: 10px 20px;
+}
+
+.grp {
+    display: flex;
+    justify-content: space-between;
+}
+
+.day {
+    margin-left: 20px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 'fit-content';
+    padding: 5px 20px;
+    border-radius: 50px;
+    border: 1px solid #442487;
+}
+
+.cal {
+    margin-right: 20px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 'fit-content';
+    padding: 5px 20px;
+    border-radius: 50px;
+    border: 1px solid #442487;
+    background: linear-gradient(#783FED, #442487);
+    color: white;
+    border: none;
+}
+
+.card {
+    border-radius: 20px;
+    width: 27vw;
+    height: 95vh;
+    margin-left: 15px;
+    overflow: hidden;
+    box-shadow: 10px 10px 20px 10px #cfcbcb;
+}
+
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+}
+
+.container img {
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+}
