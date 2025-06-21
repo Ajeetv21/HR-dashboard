@@ -31,7 +31,7 @@ app.use('/api', profileRoute);
 app.use('/api',leaveRoute)
 
 
-const upload = multer();
+
 
 app.get("/", (req, res) => {
     res.send("hello")
