@@ -13,22 +13,27 @@ exports.getEmployees = async (req, res) => {
 // READ Single Employee
 exports.getEmployeeById = async (req, res) => {
     try {
-        
-        const employee = await Employee.findOne({_id:req.params.id});
-        if (!employee) return res.status(404).json({ message: 'Employee not found.' });
-        res.status(200).json(employee);
+        const employee = await Employee.find({_id:req.params.id});
+        if (!employee) {
+            return res.status(404).json({ success: false, message: "Employee not found" });
+        }
+        res.status(200).json({ success: true, data: employee });
     } catch (error) {
-        res.status(500).json({ error: 'Failed to fetch employee.' });
+        res.status(500).json({ success: false, message: error.message });
     }
 };
 
 // UPDATE Employee
 exports.updateEmployee = async (req, res) => {
-    let result = await Employee.updateOne(
-        {_id:req.params.id},
-        {$set:req.body}
-    )
-    res.send(result)
+    try {
+        const employee = await Employee.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
+        if (!employee) {
+            return res.status(404).json({ success: false, message: "Employee not found" });
+        }
+        res.status(200).json({ success: true, data: employee });
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message });
+    }
 };
 
 // DELETE Employee

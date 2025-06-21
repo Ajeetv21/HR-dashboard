@@ -13,7 +13,8 @@ const candidateSchema = new mongoose.Schema({
     status: { 
         type: String, 
      
-        enum: ['New', 'Scheduled','Selected', 'Pending','ongoing'] 
+        enum: ['New', 'Scheduled','Selected', 'Pending','ongoing'] ,
+        required:true
     },
     experience: { type: String },
     file: { type: String }

@@ -3,7 +3,7 @@ import "./UserRegistration.css";
 import Image from "../assets/images/registrationImg.svg";
 import Logo from "../assets/icons/Logo.svg";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
+
 function UserLogin() {
 
 const [email,setEmail]=useState("");
@@ -20,6 +20,8 @@ const handleSubmit = async(e)=>{
   }
  });
  result = await  result.json();
+ console.log(result);
+localStorage.setItem("user",JSON.stringify(result));
 navigate('/dashboard/candidate')
 
 }

@@ -1,33 +1,43 @@
 require("dotenv").config();
-const express = require("express")
-const employeeRoute =require("./routes/EmployeeRoute")
-const authRoute = require("./routes/authRoute")
-const candidateRoute = require("./routes/candidateRoute")
-const attendenceRoute = require("./routes/attendenceRoute")
-const LeaveRoute = require("./routes/LeaveRoute")
-const path=require('path');
+const express = require("express");
+const multer = require('multer');
+const cors = require("cors");
+const path = require('path');
+const connectDB = require("./config/db");
+const bodyParser = require('body-parser');
+const employeeRoute = require("./routes/EmployeeRoute");
+const authRoute = require("./routes/authRoute");
+const candidateRoute = require("./routes/candidateRoute");
+const attendanceRoute = require("./routes/attendanceRoute");
+const profileRoute = require("./routes/ProfileRoute");
+const leaveRoute = require("./routes/LeaveRoute");
+
 const app = express();
-const bodyParser =require("body-parser");
-const cors = require("cors")
-const connectDB = require("./config/db")
-const fs = require("fs");
+const PORT = 4000;
+
+app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-// app.use(express.static(path.join(__dirname, "public")));
+app.use(cors());
+connectDB();
+
 app.use("/files", express.static("files"));
 app.use(express.static('uploads'));
 
+app.use('/api/v1', attendanceRoute);
+app.use('/api', candidateRoute);
+app.use('/api', employeeRoute);
+app.use('/api', authRoute);
+app.use('/api', profileRoute);
+app.use('/api',leaveRoute)
 
 
-const PORT = 4000;
-app.use(bodyParser.json());
-app.use(cors())
-connectDB();
-app.use("/api",LeaveRoute)
-app.use('/api/attendence',attendenceRoute)
-app.use('/api',candidateRoute)
-app.use('/api/employees',employeeRoute)
-app.use('/api',authRoute)
+const upload = multer();
 
-app.listen(PORT,()=>{
-    console.log(`app is running at ${PORT}`)
-})
+// app.post("/api/createLeave", upload.none(), (req, res) => {
+//     console.log('Request Body:', req.body);
+//     res.json(req.body);
+// });
+
+app.listen(PORT, () => {
+    console.log(`App is running at ${PORT}`);
+});

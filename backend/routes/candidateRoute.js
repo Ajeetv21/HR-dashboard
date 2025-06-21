@@ -1,25 +1,16 @@
 const express = require("express")
 const router = express.Router();
+const upload = require("../middlewares/upload")
 
-const multer = require("multer")
-
-// Configure Multer
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-      cb(null, "./files");
-  },
-  filename: function (req, file, cb) {
-      const uniqueSuffix = Date.now();
-      cb(null, uniqueSuffix + file.originalname);
-  },
-});
-const upload = multer({ storage: storage });
-
+const authMiddleware = require('../middlewares/authMiddleware')
 const {createCandidate,getAllCandidate,deleteCandidate,getByIdCandidate}  = require("../controllers/candidateController")
-router.post("/createcandidate",upload.single('file'),createCandidate);
-router.get("/candidates",getAllCandidate);
-router.get("/candidate",getByIdCandidate);
-router.delete("/candidats/:id",deleteCandidate);
+
+
+//  candiates routes
+router.post("/createCandidate",authMiddleware,upload.single('file'),createCandidate);
+router.get("/allCandidates",authMiddleware,getAllCandidate);
+router.get("/candidate/:id",authMiddleware,getByIdCandidate);
+router.delete("/candidates/:id",authMiddleware,deleteCandidate);
 
 
 

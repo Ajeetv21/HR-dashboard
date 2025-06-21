@@ -1,14 +1,14 @@
 const express = require("express")
 const router = express.Router();
 
-const {addLeave,updateLeave,getEmployeeById,getAllEmployees,Approved}  = require("../controllers/LeaveController")
+const {createLeave,updateStatus} = require("../controllers/LeavesControllers")
+const authMiddleware = require("../middlewares/authMiddleware")
+const upload= require("../middlewares/upload")
 
-router.post("/add",addLeave);
-router.get("/getAllEmployee",getAllEmployees);
-router.get("/getAll/:id",getEmployeeById);
-router.post("/update-leave/:id",updateLeave);
-router.patch("/leaves/:id")
-router.get("/api/leave",Approved)
+
+router.post('/createLeave',authMiddleware,upload.single('file'),createLeave)
+router.post('/leave/status/update/:id',upload.none(),authMiddleware,updateStatus)
 
 
 module.exports = router;
+

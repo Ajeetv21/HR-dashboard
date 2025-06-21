@@ -19,31 +19,31 @@ function AddNewCandidates() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
- 
 
-try {
-  const response = await axios.post(
-    "http://localhost:4000/api/createcandidate",
-    {
-      name, email, phone, position, status, experience,file
-    },
-    {
-      headers: { "Content-Type": "multipart/form-data" },
+
+    try {
+      const response = await axios.post(
+        "http://localhost:4000/api/createcandidate",
+        {
+          name, email, phone, position, status, experience, file
+        },
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+        }
+      );
+
+    } catch (error) {
+      console.log(error.message)
     }
-  );
- 
-} catch (error) {
-  console.log(error.message)
-}
-setName("")
-setEmail("")
-setExperience("")
-setFile("")
-setPosition("")
-setStatus("")
-setPhone("")
-      
-   
+    setName("")
+    setEmail("")
+    setExperience("")
+    setFile("")
+    setPosition("")
+    setStatus("")
+    setPhone("")
+
+
 
 
   };
@@ -130,15 +130,20 @@ setPhone("")
               <option value="Ongoing">Ongoing</option>
             </select>
           </div>
-
-          <div>
-            <input
-              type="file"
-              name="file"
-              onChange={(e) => setFile(e.target.files[0])}
-              required
-            />
+          <div className="btn-resume">
+           
+              <label>Resume:</label>
+              <input
+                type="file"
+                name="file"
+                onChange={(e) => setFile(e.target.files[0])}
+                required
+              />
+          
           </div>
+
+
+
           <div className="bottom">
             <p style={{ color: "grey" }}>
               I here by declare that the above information is true to the best of
