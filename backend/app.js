@@ -33,10 +33,9 @@ app.use('/api',leaveRoute)
 
 const upload = multer();
 
-// app.post("/api/createLeave", upload.none(), (req, res) => {
-//     console.log('Request Body:', req.body);
-//     res.json(req.body);
-// });
+app.get("/", (req, res) => {
+    res.send("hello")
+});
 
 app.listen(PORT, () => {
     console.log(`App is running at ${PORT}`);
