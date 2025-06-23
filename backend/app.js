@@ -21,6 +21,7 @@ app.use(cors());
 connectDB();
 
 app.use("/files", express.static("files"));
+app.use('/files', express.static(path.join(__dirname, 'files')));
 app.use(express.static('uploads'));
 
 app.use('/api/v1', attendanceRoute);

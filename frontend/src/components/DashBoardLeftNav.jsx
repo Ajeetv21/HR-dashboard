@@ -1,8 +1,11 @@
 import React from "react";
+import { logout } from "../features/auth/authSlice";
+
 
 function DashBoardLeftNav(props) {
+
   return (
-    <div style={styles.container}>
+    <div style={styles.container} onClick={props.onClick}>
       <img src={props.path} alt="Logo" />{" "}
       <p style={styles.font}>{props.text}</p>
     </div>

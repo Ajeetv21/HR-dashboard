@@ -19,7 +19,8 @@ function Register() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const result = await dispatch(registerUser({ username, email, password }));
+    const result =dispatch(registerUser({ username, email, password }));
+
 
     if (registerUser.fulfilled.match(result)) {
       setUsername("");

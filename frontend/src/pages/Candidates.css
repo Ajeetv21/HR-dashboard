@@ -91,4 +91,8 @@ html,body{
     td button:hover {
       color: #723DE1;
     }
+
+    .candidate{
+      overflow-y: auto;
+    }
     

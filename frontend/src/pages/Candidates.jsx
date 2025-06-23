@@ -4,39 +4,68 @@ import Button from "../components/reusableComponent/button";
 import Search from "../components/reusableComponent/Search";
 import './Candidates.css'
 import { MdDelete } from "react-icons/md";
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios'
+
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { deleteCandidate, fetchCandidate } from "../features/auth/CandidateSlice";
+import { toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 function Candidates() {
 
-  const [candidates, setCandidates] = useState([]);
+ 
 
-  const navigate = useNavigate();
+  const {candidates,loading,error}=useSelector((state)=>state.candidate)
+
+  const dispatch = useDispatch()
+  const token = localStorage.getItem('authToken')
   useEffect(() => {
-   
-   axios.get('http://localhost:4000/api/candidates')
-   .then((response)=>{
-    setCandidates(response.data)
 
-   })
-   .catch((error)=>{
-    console.log("Error fetching candidates")
-   })
-   
+  dispatch(fetchCandidate())
+
   }, []);
 
-  const handleDelete  = async (id) => {
-   
-  let result = await fetch(`http://localhost:4000/api/candidats/${id}`,{
-    method:"Delete"
-  });
 
-  result = await result.json();  
-  
-  };
+  candidates.map((candidate,id)=>(
+    console.log(candidate._id)
+  ))
+
+  // 
+  const showDeleteConfirmation = (onConfirm) => {
+    toast.info(
+        ({ closeToast }) => (
+            <div>
+                <p>Are you sure you want to delete?</p>
+                <button 
+                    onClick={() => { 
+                        onConfirm(); 
+                        closeToast(); 
+                    }} 
+                    style={{ marginRight: '10px' }}
+                >
+                    Yes
+                </button>
+                <button onClick={closeToast}>No</button>
+            </div>
+        ),
+        { 
+            autoClose: false, 
+            closeOnClick: false 
+        }
+    );
+};
+  const handleDelete = (id)=>{
+       
+    showDeleteConfirmation(()=>{
+        dispatch(deleteCandidate(id))
+         dispatch(fetchCandidate())
+    })
+      
+      
+  }
+
   return (
-    <div>
+    <div className="candidate">
       <div
         style={{
           display: "flex",
@@ -64,12 +93,11 @@ function Candidates() {
 
         <div style={{ display: "flex", gap: 20 }} className="btngrp">
           <Search />
-          <Link to="/dashboard/addnewcandidate">
+          <Link to="/dashboard/addNewCandidate">
             <Button text="Add New Candidate" />{" "}
           </Link>
         </div>
       </div>
-      <h1>Candidate Page</h1>
 
       <table>
         <thead>
@@ -93,21 +121,31 @@ function Candidates() {
               <td>{candidate.email}</td>
               <td>{candidate.phone}</td>
               <td>{candidate.position}</td>
-              <td className={`status-${candidate.status.toLowerCase()}`}>
+              <td className={`status-${candidate.status}`}>
                 {candidate.status}
               </td>
               <td>{candidate.experience}</td>
               <td>
-                {candidate.file? (
-                  <a href={`http://localhost:4000/api/${candidate.file}`}>
-                  download
-                </a>
-                
+                {candidate.file ? (
+                  <a
+                    href={`http://localhost:4000/${candidate.file}`}
+                    download
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    download
+                  </a>
                 ) : (
                   <span style={{ color: "#888" }}>No Resume</span>
                 )}
               </td>
-              <td><p><button onClick={()=>handleDelete(candidate._id)}><MdDelete /></button></p></td>
+              <td>
+                <p>
+                  <button onClick={()=>handleDelete(candidate._id)} >
+                    <MdDelete />
+                  </button>
+                </p>
+              </td>
             </tr>
           ))}
         </tbody>

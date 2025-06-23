@@ -15,9 +15,20 @@ import Employee from "../pages/Employee";
 import Attendance from "../pages/Attendance";
 import Leaves from "../pages/Leaves";
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { logout } from "../features/auth/authSlice";
 
 function DashBoard(props) {
+
+const navigate =useNavigate()
+  const dispatch = useDispatch()
+  const handleLogout = () => {
+  dispatch(logout());
+  
+  navigate("/");
+};
+
   return (
     <div className="dashboard">
       <div className="dashboardLeft">
@@ -41,9 +52,9 @@ function DashBoard(props) {
             <DashBoardLeftNav path={leavesLogo} text="Leaves" />
           </Link>
           <DashBoardLeftText text="Others" />
-          <Link className="link" to="/">
-            <DashBoardLeftNav path={logOutLogo} text="Logout" />
-          </Link>
+          
+            <DashBoardLeftNav  path={logOutLogo} onClick={handleLogout}  text="Logout"  />
+        
         </div>
       </div>
 

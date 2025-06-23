@@ -1,38 +1,37 @@
 
-
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import axios from 'axios';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import axiosInstance from '../../utils/axiosInstance';
 import { toast } from 'react-toastify';
 
 
-const BaseUrl ="http://localhost:4000/api/v1/"
-
 
 export const loginUser = createAsyncThunk(
-  "auth/login",
-  async ({ email, password }, { rejectWithValue }) => {
-    try {
-      const response = await axios.post(`${BaseUrl}/login`, { email, password });
-      toast.success("Login successful!");
+    "auth/login",
+    async ({ email, password }, { rejectWithValue }) => {
+        try {
+            const response = await axiosInstance.post(`/login`, { email, password });
+            toast.success("Login successful!");
 
-      localStorage.setItem("authToken", response.data.token);
-      localStorage.setItem("authUser", JSON.stringify(response.data.user));
+            localStorage.setItem("authToken", response.data.token);
+            localStorage.setItem("authUser", JSON.stringify(response.data));
 
-      return response.data; // { token: "...", user: {...} }
-    } catch (error) {
-      toast.error(error.response?.data?.message || "Login failed");
-      return rejectWithValue(error.response?.data?.message);
+            return response.data; 
+        } catch (error) {
+            toast.error(error.response?.data?.message || "Login failed");
+            return rejectWithValue(error.response?.data?.message);
+        }
     }
-  }
 );
 
 
-// Register API
-export const registerUser = createAsyncThunk('auth/registerUser', async (userData, thunkAPI) => {
+
+export const registerUser = createAsyncThunk('auth/registerUser', async ({ username, email, password }, thunkAPI) => {
     try {
-        const response = await BaseUrl.post('/register', userData);
-        return response.data; // { user, token }
+        const response = await axiosInstance.post('/register', { username, email, password });
+        toast.success("registration successful!");
+        return response.data; 
     } catch (error) {
+         toast.error(error.response?.data?.message || "Login failed");
         return thunkAPI.rejectWithValue(error.response?.data?.message || 'Registration failed');
     }
 });
@@ -40,7 +39,7 @@ export const registerUser = createAsyncThunk('auth/registerUser', async (userDat
 const authSlice = createSlice({
     name: 'auth',
     initialState: {
-        user: JSON.parse(localStorage.getItem('authUser')) || null,
+        user: null,
         token: localStorage.getItem('authToken') || null,
         loading: false,
         error: null,
@@ -52,7 +51,7 @@ const authSlice = createSlice({
             state.token = null;
             state.isAuthenticated = false;
             localStorage.removeItem('authToken');
-            localStorage.removeItem('authUser');
+            localStorage.removeItem('authUser')
         },
     },
     extraReducers: (builder) => {
@@ -68,7 +67,6 @@ const authSlice = createSlice({
                 state.token = action.payload.token;
                 state.isAuthenticated = true;
                 localStorage.setItem('authToken', action.payload.token);
-                localStorage.setItem('authUser', JSON.stringify(action.payload.user));
             })
             .addCase(loginUser.rejected, (state, action) => {
                 state.loading = false;
@@ -86,7 +84,6 @@ const authSlice = createSlice({
                 state.token = action.payload.token;
                 state.isAuthenticated = true;
                 localStorage.setItem('authToken', action.payload.token);
-                localStorage.setItem('authUser', JSON.stringify(action.payload.user));
             })
             .addCase(registerUser.rejected, (state, action) => {
                 state.loading = false;
