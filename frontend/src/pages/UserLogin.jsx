@@ -3,28 +3,27 @@ import "./UserRegistration.css";
 import Image from "../assets/images/registrationImg.svg";
 import Logo from "../assets/icons/Logo.svg";
 import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { loginUser } from "../features/auth/authSlice";
 
 function UserLogin() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-const [email,setEmail]=useState("");
-const [password,setPassword]=useState("")
-const navigate=useNavigate()
-const handleSubmit = async(e)=>{
-  console.log(email,password)
- e.preventDefault();
- let result = await fetch('http://localhost:4000/api/login',{
-  method:"post",
-  body:JSON.stringify({email,password}),
-  headers:{
-     "Content-Type": "application/json"
-  }
- });
- result = await  result.json();
- console.log(result);
-localStorage.setItem("user",JSON.stringify(result));
-navigate('/dashboard/candidate')
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-}
+  const { loading, error, isAuthenticated } = useSelector((state) => state.auth);
+
+ const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const result =  dispatch(loginUser({ email, password }));
+    console.log(email,password)
+    if (loginUser) {
+      navigate('/dashboard/candidate');
+    }
+};
 
   return (
     <div className="userRegistration">
@@ -42,9 +41,9 @@ navigate('/dashboard/candidate')
                 name="email"
                 id="email"
                 value={email}
-                onChange={(e)=>setEmail(e.target.value)}
+                onChange={(e) => setEmail(e.target.value)}
                 placeholder="Email Address"
-
+                required
               />
               <label htmlFor="password" className="userLabel">
                 Password
@@ -55,12 +54,18 @@ navigate('/dashboard/candidate')
                 id="password"
                 placeholder="Password"
                 value={password}
-                onChange={(e)=>setPassword(e.target.value)}
+                onChange={(e) => setPassword(e.target.value)}
+                required
               />
 
-              <button id="register">Login</button>
+              <button id="register" type="submit" disabled={loading}>
+                {loading ? 'Logging in...' : 'Login'}
+              </button>
+
+              {error && <p style={{ color: 'red' }}>{error}</p>}
+
               <p>
-                Don't have an account{" "}
+                Don't have an account?{" "}
                 <span>
                   <Link to="/register">Register</Link>
                 </span>
@@ -69,7 +74,7 @@ navigate('/dashboard/candidate')
           </div>
         </div>
         <div className="rightPanel">
-          <img src={Image} alt="" />
+          <img src={Image} alt="Registration" />
           <h2>
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Vero, eum!
           </h2>

@@ -24,11 +24,11 @@ app.use("/files", express.static("files"));
 app.use(express.static('uploads'));
 
 app.use('/api/v1', attendanceRoute);
-app.use('/api', candidateRoute);
-app.use('/api', employeeRoute);
-app.use('/api', authRoute);
-app.use('/api', profileRoute);
-app.use('/api',leaveRoute)
+app.use('/api/v1', candidateRoute);
+app.use('/api/v1', employeeRoute);
+app.use('/api/v1', authRoute);
+app.use('/api/v1', profileRoute);
+app.use('/api/v1',leaveRoute)
 
 
 

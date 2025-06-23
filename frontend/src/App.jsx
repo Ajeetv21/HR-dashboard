@@ -3,55 +3,28 @@ import DashBoard from "./components/DashBoard";
 import UserLogin from "./pages/UserLogin";
 import Registration from "./pages/Register";
 import Candidates from "./pages/Candidates";
-import Attendance from "./pages/Attendance";
-import Employee from "./pages/Employee";
-import Leaves from "./pages/Leaves";
-import AddNewCandidates from "./components/forms/AddNewCandidates";
-import AddNewLeaves from "./components/forms/AddNewLeaves";
-import PrivateComponent from "./components/PrivateComponent";
-import Logout from "./components/Logout";
-import EmployeeForm from "./pages/EmployeeForm";
+import ProtectedRoute from './middlewares/ProtectedRoute';
+import { Provider } from 'react-redux';
+import store from "./store";
 
 function App() {
   return (
-    <>
+    <Provider store={store}>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<UserLogin />} />
-          <Route path="/register" element={<Registration/>} />
-         
+          <Route path="/register" element={<Registration />} />
           <Route
             path="/dashboard/candidate"
-            element={<DashBoard heading="Candidate" tag={<Candidates />} />}
+            element={
+              <ProtectedRoute>
+                <DashBoard heading="Candidate" tag={<Candidates />} />
+              </ProtectedRoute>
+            }
           />
-          <Route
-            path="/dashboard/attendance"
-            element={<DashBoard heading="Attendance" tag={<Attendance />} />}
-          />
-          <Route
-            path="/dashboard/employees"
-            element={<DashBoard heading="Employee" tag={<Employee />} />}
-          />
-
-           <Route
-            path="/employeeUpdate/:id"
-            element={<DashBoard heading="Employee" tag={<EmployeeForm />} />}
-          />
-          <Route
-            path="/dashboard/leaves"
-            element={<DashBoard heading="leaves" tag={<Leaves />} />}
-          />
-
-          <Route
-            path="/dashboard/addnewcandidate"
-            element={<AddNewCandidates />}
-          />
-
-          <Route path="/dashboard/addnewleaves" element={<AddNewLeaves />} />
-       
         </Routes>
       </BrowserRouter>
-    </>
+    </Provider>
   );
 }
 
