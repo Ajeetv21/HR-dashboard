@@ -1,0 +1,129 @@
+/* Modal Container */
+.popup-model {
+    background-color: #fff;
+    border-radius: 12px;
+    width: 40%;
+    max-width: 600px;
+    
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: left;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+
+.heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 10px 10px 0 0;
+    margin-bottom: 20px;
+}
+
+.heading p {
+    flex: 1;
+    font-size: 22px;
+    font-weight: 500;
+    color: white;
+    margin: 0;
+}
+
+.heading button {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.heading button img {
+    width: 24px;
+    height: 24px;
+}
+
+/* Form Section */
+.popup-model form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding: 10px 20px;
+    margin-bottom: 20px;
+    gap: 10px;
+}
+
+.popup-model form div {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    margin-bottom: 5px;
+    font-weight: 600;
+    color: #333;
+}
+
+.popup-model form input {
+    color: black;
+    padding: 10px 15px;
+    border-radius: 8px;
+    border: 1px solid #783FED;
+    margin: 5px 0;
+    width: 90%;
+    font-size: 16px;
+}
+
+.popup-model form input:focus {
+    border-color: #4CAF50;
+    outline: none;
+}
+
+/* Button Group */
+.buttonGroup {
+   transform: translateX(120px);
+}
+
+button[type="submit"] {
+    padding: 10px 40px; 
+   
+    background-color:  #783FED;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+select {
+    color:black;
+    padding: 10px 15px;
+    border-radius: 8px;
+    border: 1px solid #783FED;
+}
+
+button[type="submit"]:hover {
+    background-color:  #783FED;
+}
+
+/* Animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .popup-model {
+        width: 90%;
+    }
+
+    .popup-model form {
+        grid-template-columns: 1fr;
+    }
+
+    .popup-model form input {
+        width: 95%;
+    }
+}

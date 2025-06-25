@@ -1,0 +1,101 @@
+.popup-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.popup {
+    background-color: white;
+    
+    border-radius: 20px;
+    width: 40%; 
+
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+    animation: slideDown 0.3s ease-in-out;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.popup-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.popup-header h2 {
+    margin: 0;
+    font-size: 20px;
+}
+
+.popup-close {
+    background: none;
+    border: none;
+    cursor: pointer;
+
+}
+
+
+
+.popup-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.popup-form input,
+.popup-form select {
+    padding: 10px 15px;
+    border: 1px solid #783FED;
+    border-radius: 8px;
+    font-size: 16px;
+}
+
+.save-btn {
+    padding: 10px 20px;
+    background-color: #783FED;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.save-btn:hover {
+    background-color: #5a2ecd;
+}
+
+@media (max-width: 480px) {
+    .popup {
+        width: 90%;
+    }
+}
+.heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    border-radius: 20px 20px 0px 0px;
+    margin-bottom: 20px;
+}
+
+
+.heading p {
+    width: 100%;
+    text-align: center;
+    font-size: 22px;
+    font-weight: 500;
+}

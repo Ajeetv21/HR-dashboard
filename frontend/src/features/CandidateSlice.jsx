@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axiosInstance from '../../utils/axiosInstance';
+import axiosInstance from '../utils/axiosInstance';
 import { toast } from 'react-toastify';
 
 const token = localStorage.getItem("authToken");
@@ -53,7 +53,7 @@ export const fetchCandidate = createAsyncThunk(
 export const deleteCandidate = createAsyncThunk(
     "candidate/delete",
     async (_id, { rejectWithValue }) => {
-        
+
         try {
             const res = await axiosInstance.delete(`/candidates/${_id}`, {
                 headers: {
@@ -69,6 +69,27 @@ export const deleteCandidate = createAsyncThunk(
         }
     }
 )
+export const updateCandidate = createAsyncThunk(
+    "employee/update",
+    async ({ id, updatedData }, { rejectWithValue }) => {
+
+
+        try {
+            const token = localStorage.getItem('authToken');
+
+            const res = await axiosInstance.put(`/candidate/update/${id}`, updatedData, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                }
+            });
+
+            return res.data;
+
+        } catch (error) {
+            return rejectWithValue(error.response?.data?.message || "Failed to update employee");
+        }
+    }
+);
 
 
 
@@ -96,33 +117,50 @@ const CandidatesSlice = createSlice({
                 state.error = action.payload;
             });
 
-       builder 
-             .addCase(fetchCandidate.pending, (state) => {
+        builder
+            .addCase(fetchCandidate.pending, (state) => {
                 state.loading = true;
                 state.error = null;
             })
             .addCase(fetchCandidate.fulfilled, (state, action) => {
                 state.loading = false;
-                state.candidates=(action.payload);
+                state.candidates = (action.payload);
             })
             .addCase(fetchCandidate.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload;
             });
 
-      builder 
-             .addCase(deleteCandidate.pending, (state) => {
+        builder
+            .addCase(deleteCandidate.pending, (state) => {
                 state.loading = true;
                 state.error = null;
             })
             .addCase(deleteCandidate.fulfilled, (state, action) => {
                 state.loading = false;
-                 state.candidates = state.candidates.filter(item => item._id !== action.payload);
+                state.candidates = state.candidates.filter(item => item._id !== action.payload);
             })
             .addCase(deleteCandidate.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload;
-            });         
+            });
+
+        builder
+            .addCase(updateCandidate.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(updateCandidate.fulfilled, (state, action) => {
+                state.loading = false;
+                const index = state.candidates.findIndex(candidate => candidate._id === action.payload._id);
+                if (index !== -1) {
+                    state.candidates[index] = action.payload;
+                }
+            })
+            .addCase(updateCandidate.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
+            });
     },
 });
 

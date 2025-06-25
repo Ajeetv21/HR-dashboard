@@ -2,6 +2,7 @@
     border-collapse: collapse;
     border-radius: 20px;
     overflow: hidden;
+    
 }
 
 .attendanceData th {
@@ -13,4 +14,13 @@
 
 .attendanceData td {
     padding: 8px 30px;
+}
+.absent{
+    color: red;
+}
+.attendance-container{
+    width: 95%;
+    height: 80%;
+    overflow-y: auto;
+ 
 }

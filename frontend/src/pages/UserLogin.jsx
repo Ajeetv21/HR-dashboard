@@ -4,7 +4,7 @@ import Image from "../assets/images/registrationImg.svg";
 import Logo from "../assets/icons/Logo.svg";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { loginUser } from "../features/auth/authSlice";
+import { loginUser } from "../features/authSlice";
 
 function UserLogin() {
   const [email, setEmail] = useState("");

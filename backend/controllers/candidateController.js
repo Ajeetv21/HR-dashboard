@@ -87,6 +87,40 @@ exports.deleteCandidate = async (req, res) => {
 
 }
 
+
+exports.updateCandidate = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { status} = req.body;
+       
+
+        if (!status) {
+            return res.status(400).json({ success: false, message: 'Status is required' });
+        }
+        
+
+        const candidate = await Candidate.findById(id);
+
+        if (!candidate) {
+            return res.status(404).json({ success: false, message: 'candidate record not found' });
+        }
+
+        candidate.status = status; 
+   
+
+        const updatedCandidate = await candidate.save();
+
+        res.status(200).json({
+            success: true,
+            message: ' status updated successfully',
+            data: updatedCandidate
+        });
+
+    } catch (error) {
+        res.status(500).json({ success: false, message: 'Error updating status', details: error.message });
+    }
+};
+
 exports.getCandidate = async (req, res) => {
     try {
         let result = await Candidate.findById({ _id: req.params.id })

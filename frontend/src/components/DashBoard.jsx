@@ -17,7 +17,7 @@ import Leaves from "../pages/Leaves";
 
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { logout } from "../features/auth/authSlice";
+import { logout } from "../features/authSlice";
 
 function DashBoard(props) {
 
@@ -53,7 +53,7 @@ const navigate =useNavigate()
           </Link>
           <DashBoardLeftText text="Others" />
           
-            <DashBoardLeftNav  path={logOutLogo} onClick={handleLogout}  text="Logout"  />
+          <DashBoardLeftNav  path={logOutLogo} onClick={handleLogout}  text="Logout"  />
         
         </div>
       </div>

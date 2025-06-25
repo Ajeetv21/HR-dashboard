@@ -6,7 +6,7 @@ import "./AddNewCandidates.css";
 import CloseCircle from "../../assets/icons/close-circle.svg";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { createCandidate } from "../../features/auth/CandidateSlice";
+import { createCandidate } from "../../features/CandidateSlice";
 
 function AddNewCandidates() {
     const [name, setName] = useState("");
@@ -28,7 +28,7 @@ function AddNewCandidates() {
             console.log(error.message);
         }
 
-        
+
         setName("");
         setEmail("");
         setPhone("");
@@ -92,31 +92,13 @@ function AddNewCandidates() {
                     </div>
                     <div className="select">
                         <label>Position:</label>
-                        <select
-                            value={position}
+                       
+
+                        <input type="text" value={position}
                             onChange={(e) => setPosition(e.target.value)}
-                            required
-                        >
-                            <option value="" disabled>
-                                Select Position
-                            </option>
-                            <option value="Designer Intern">Designer Intern</option>
-                            <option value="Developer">Developer</option>
-                            <option value="Human Resources">Human Resources</option>
-                            <option value="Designer Full time">Designer Full time</option>
-                            <option value="Developer Full time">Developer Full time</option>
-                        </select>
+                            required />
                     </div>
-                    <div>
-                        <label>Status:</label>
-                        <select value={status} onChange={(e) => setStatus(e.target.value)}>
-                            <option value="New">New</option>
-                            <option value="Scheduled">Scheduled</option>
-                            <option value="Selected">Selected</option>
-                            <option value="Pending">Pending</option>
-                            <option value="Ongoing">Ongoing</option>
-                        </select>
-                    </div>
+
                     <div className="btn-resume">
                         <label>Resume:</label>
                         <input
@@ -127,11 +109,13 @@ function AddNewCandidates() {
                         />
                     </div>
 
-                    <div className="bottom">
+                    <div className="save-bottom">
+                        <div className="bottom">
                         <p style={{ color: "grey" }}>
                             I hereby declare that the above information is true to the best of my knowledge and belief.
                         </p>
                         <Button text="Save" />
+                    </div>
                     </div>
                 </form>
             </div>

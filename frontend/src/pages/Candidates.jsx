@@ -7,61 +7,61 @@ import { MdDelete } from "react-icons/md";
 
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteCandidate, fetchCandidate } from "../features/auth/CandidateSlice";
+import { deleteCandidate, fetchCandidate, updateCandidate } from "../features/CandidateSlice";
 import { toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 
 function Candidates() {
 
- 
 
-  const {candidates,loading,error}=useSelector((state)=>state.candidate)
+
+  const { candidates, loading, error } = useSelector((state) => state.candidate)
 
   const dispatch = useDispatch()
   const token = localStorage.getItem('authToken')
   useEffect(() => {
 
-  dispatch(fetchCandidate())
+    dispatch(fetchCandidate())
 
   }, []);
 
 
-  candidates.map((candidate,id)=>(
+  candidates.map((candidate, id) => (
     console.log(candidate._id)
   ))
 
   // 
   const showDeleteConfirmation = (onConfirm) => {
     toast.info(
-        ({ closeToast }) => (
-            <div>
-                <p>Are you sure you want to delete?</p>
-                <button 
-                    onClick={() => { 
-                        onConfirm(); 
-                        closeToast(); 
-                    }} 
-                    style={{ marginRight: '10px' }}
-                >
-                    Yes
-                </button>
-                <button onClick={closeToast}>No</button>
-            </div>
-        ),
-        { 
-            autoClose: false, 
-            closeOnClick: false 
-        }
+      ({ closeToast }) => (
+        <div>
+          <p>Are you sure you want to delete?</p>
+          <button
+            onClick={() => {
+              onConfirm();
+              closeToast();
+            }}
+            style={{ marginRight: '10px' }}
+          >
+            Yes
+          </button>
+          <button onClick={closeToast}>No</button>
+        </div>
+      ),
+      {
+        autoClose: false,
+        closeOnClick: false
+      }
     );
-};
-  const handleDelete = (id)=>{
-       
-    showDeleteConfirmation(()=>{
-        dispatch(deleteCandidate(id))
-         dispatch(fetchCandidate())
+  };
+  const handleDelete = (id) => {
+
+    showDeleteConfirmation(() => {
+      dispatch(deleteCandidate(id))
+      dispatch(fetchCandidate())
     })
-      
-      
+
+
   }
 
   return (
@@ -121,8 +121,27 @@ function Candidates() {
               <td>{candidate.email}</td>
               <td>{candidate.phone}</td>
               <td>{candidate.position}</td>
-              <td className={`status-${candidate.status}`}>
-                {candidate.status}
+
+              <td>
+                <select
+                  value={candidate.status}
+                  onChange={(e) => {
+                    const newStatus = e.target.value;
+                    dispatch(updateCandidate({
+                      id: candidate._id,
+                      updatedData: { status: newStatus },
+                    })).then(() => {
+                      dispatch(fetchCandidate());
+                    });
+                  }}
+                  style={{ color: candidate.status === "Selected" ? "green" : "red" }}
+                >
+                  <option value="New">New</option>
+                  <option value="Selected">Selected</option>
+                  <option value="Scheduled">Scheduled</option>
+                  <option value="Pending">Pending</option>
+                  <option value="ongoing">Ongoing</option>
+                </select>
               </td>
               <td>{candidate.experience}</td>
               <td>
@@ -141,7 +160,7 @@ function Candidates() {
               </td>
               <td>
                 <p>
-                  <button onClick={()=>handleDelete(candidate._id)} >
+                  <button onClick={() => handleDelete(candidate._id)} >
                     <MdDelete />
                   </button>
                 </p>

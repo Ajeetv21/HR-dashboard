@@ -4,7 +4,7 @@ import Image from "../assets/images/registrationImg.svg";
 import Logo from "../assets/icons/Logo.svg";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { registerUser } from "../features/auth/authSlice";
+import { registerUser } from "../features/authSlice";
 
 function Register() {
   const [username, setUsername] = useState("");

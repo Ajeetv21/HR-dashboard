@@ -1,5 +1,5 @@
 import React from "react";
-import { logout } from "../features/auth/authSlice";
+import { logout } from "../features/authSlice";
 
 
 function DashBoardLeftNav(props) {

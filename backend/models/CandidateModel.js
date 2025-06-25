@@ -1,20 +1,22 @@
 const mongoose = require('mongoose');
 const Employee = require("./EmployeeModel")
+const Attendance = require("./AttendanceModel")
 const candidateSchema = new mongoose.Schema({
-    
-    name: { type: String, required: true }, 
+
+    name: { type: String, required: true },
     email: { type: String, required: true, unique: true },
     phone: { type: String },
-    position: { 
-        type: String, 
-        
-        enum: ['Designer Intern', 'Developer', 'Human Resources', 'Designer Full time', 'Developer Full time'] 
+    position: {
+        type: String,
+
+        enum: ['Designer Intern', 'Developer', 'Human Resources', 'Designer Full time', 'Developer Full time']
     },
-    status: { 
-        type: String, 
-     
-        enum: ['New', 'Scheduled','Selected', 'Pending','ongoing'] ,
-        required:true
+    status: {
+        type: String,
+
+        enum: ['New', 'Scheduled', 'Selected', 'Pending', 'ongoing'],
+        required: true,
+        default:'New',
     },
     experience: { type: String },
     file: { type: String }
@@ -22,16 +24,16 @@ const candidateSchema = new mongoose.Schema({
 
 
 
-candidateSchema.post('save', async function(doc) {
+candidateSchema.post('save', async function (doc) {
     if (doc.status === 'Selected') {
         const existingEmployee = await Employee.findOne({ email: doc.email });
-        
+
         if (!existingEmployee) {
             const newEmployee = new Employee({
                 EmployeeName: doc.name,
                 email: doc.email,
                 phone: doc.phone,
-                
+
             });
 
             await newEmployee.save();
@@ -41,5 +43,7 @@ candidateSchema.post('save', async function(doc) {
         }
     }
 });
+
+
 
 module.exports = mongoose.model('Candidate', candidateSchema);
