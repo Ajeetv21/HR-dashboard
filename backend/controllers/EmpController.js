@@ -46,3 +46,19 @@ exports.deleteEmployee = async (req, res) => {
         res.status(500).json({ error: 'Failed to delete employee.' });
     }
 };
+
+exports.searchEmployee = async (req,res)=>{
+try {
+    const name = req.query.name;
+    console.log(name)
+    const employees = await Employee.find({
+      EmployeeName: { $regex: name, $options: 'i' }, 
+    });
+    res.status(200).json(employees);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+}
+
+
+

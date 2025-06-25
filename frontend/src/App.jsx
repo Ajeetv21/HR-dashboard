@@ -11,6 +11,8 @@ import { Provider } from 'react-redux';
 import store from "./store";
 import Employee from "./pages/Employee";
 import EditAttendanceModel from './components/forms/EditAttendanceModel';
+import Leaves from "./pages/Leaves";
+import AddNewLeaves from './components/forms/AddNewLeaves';
 
 function App() {
   return (
@@ -38,12 +40,19 @@ function App() {
 
           <Route path="/dashboard/attendance" element={
             <ProtectedRoute>
-              <DashBoard heading="attendance" tag={<Attendance/>} />
+              <DashBoard heading="attendance" tag={<Attendance />} />
 
             </ProtectedRoute>
           } />
 
-          
+          <Route path="/dashboard/addNewLeaves" element={<AddNewLeaves />} />
+          <Route path="/dashboard/leaves" element={
+            <ProtectedRoute>
+              <DashBoard heading="attendance" tag={<Leaves />} />
+
+            </ProtectedRoute>
+          } />
+
 
         </Routes>
       </BrowserRouter>

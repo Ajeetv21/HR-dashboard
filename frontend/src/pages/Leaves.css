@@ -6,31 +6,34 @@
 }
 
 .leaveData table {
+    height: 50px;
     border-collapse: collapse;
-    border-radius: 20px;
+    border-radius: 15px 15px 5px 5px ;
     overflow: hidden;
     box-shadow: 10px 10px 20px 10px #cfcbcb;
+    background-color: #783FED;
 }
-
+.table-heading{
+      /* font-size:0.8rem; */
+      color: white;
+}
+/* 
 .tableHeading {
     background: linear-gradient(#783FED, #442487);
     color: #ffffff;
-}
+} */
+
+
 
 .leaveData th {
     padding: 10px 20px;
-    text-align: center;
 }
 
-.leaveData td {
-    padding: 8px 20px;
-}
-
-.heading {
+/* .heading {
     background: linear-gradient(#783FED, #442487);
     color: #ffffff;
     padding: 10px 20px;
-}
+} */
 
 .grp {
     display: flex;
@@ -82,3 +85,4 @@
     width: 50px;
     border-radius: 50%;
 }
+

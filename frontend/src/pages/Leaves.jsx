@@ -5,23 +5,24 @@ import Calender from "./Calender";
 import "./Leaves.css";
 import { Link } from "react-router-dom";
 import axios from 'axios'
+import { useDispatch, useSelector } from "react-redux";
+import { fetchLeaves } from "../features/leaveSlice";
+import { fetchCandidate, updateCandidate } from "../features/CandidateSlice";
 function Leaves() {
-  
-  
-  const [leaves, setLeaves] = useState([]);
+
+
+
+  const dispatch = useDispatch()
+  const { leaves, loading, error } = useSelector((state) => state.leaves)
+
 
   useEffect(() => {
-    
-   axios.get('http://localhost:4000/api/getAllEmployee')
-   .then((response)=>{
-    setLeaves(response.data)
+    dispatch(fetchLeaves())
+  }, [])
 
-   })
-   .catch((error)=>{
-    console.log("Error fetching candidates")
-   })
-   
-  }, []);
+  console.log(leaves)
+
+
   return (
     <div className="box">
       <div
@@ -51,36 +52,60 @@ function Leaves() {
         </div>
       </div>
       <div className="leaveData">
-        <table border={0}>
-          <tr style={{ backgroundColor: "#783FED", color: "#ffffff" }}>
-            <th style={{ textAlign: "left", marginLeft: 10 }} colSpan={6}>
-              Applied Leaves
-            </th>
-          </tr>
-          <tr className="tableHeading">
-            <th></th>
-            <th>Name</th>
-            <th>Date</th>
-            <th>Reason</th>
-            <th>Status</th>
-            <th>Docs</th>
-          </tr>
 
-          {
-      leaves.map((item,index) =>
-   <tr className="leave-row" key={index}>
+        <table >
 
-    <td>{item.fullname}</td>
-    <td>{item.reason}</td>
-    <td>{item.designation}</td>
-    <td>{item.startDate}</td>
-   <td>{item.status}</td>
-   </tr>
-      )
-}
+          <thead>
+            <tr className="table-heading"><th><h2>Applied</h2></th></tr>
+            <tr>
+
+              <th>Name</th>
+              <th>Date</th>
+              <th>Reason</th>
+              <th>Status</th>
+              <th>Docs</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {
+              leaves.map((item, index) =>
+                <tr key={index}>
+
+                  <td>{item.employeeId.EmployeeName}</td>
+                  <td>{item.LeaveDate}</td>
+                  <td>{item.reason}</td>
+
+                  <td>
+                    <select
+                      value={item.status}
+                      style={{ color: item.status === "approved" ? "green" : "red" }}
+                    >
+                      
+                      <option value="approved">Approved</option>
+                      <option value="pending">Pending</option>
+                      <option value="rejected">Rejected</option>
+                     
+                    </select>
+                  </td>
+
+                  <td>
+                    <a
+                      href={`http://localhost:4000/${leaves.file}`}
+                      download
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      download
+                    </a>
+
+                  </td>
+                </tr>
+              )
+            }
+          </tbody>
         </table>
-
-       <Calender/>
+        <Calender />
       </div>
     </div>
   );

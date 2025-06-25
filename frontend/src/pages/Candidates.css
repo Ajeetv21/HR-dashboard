@@ -96,3 +96,33 @@ td button:hover {
 .candidate {
   overflow-y: auto;
 }
+.show-calender {
+  margin: 20px auto;
+  padding: 20px;
+  width: fit-content;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+}
+
+.show-calender .react-calendar {
+  border-radius: 10px;
+  overflow: hidden; 
+  border: 1px solid #ddd; 
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+
+.react-calendar__tile {
+  border-radius: 8px;
+   border:none;
+  margin: 2px;
+}
+
+.react-calendar__tile--active {
+  background-color: #4CAF50;
+  color: white;
+  border-radius: 8px;
+}
+abbr[title] {
+    text-decoration:none;
+}

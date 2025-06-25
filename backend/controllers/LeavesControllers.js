@@ -39,7 +39,7 @@ exports.createLeave = async (req, res) => {
 
 exports.updateStatus = async (req, res) => {
     try {
-        const { id } = req.params; 
+        const { id } = req.params;
         const { status } = req.body;
 
         if (!status) {
@@ -53,16 +53,26 @@ exports.updateStatus = async (req, res) => {
         }
         leave.status = status;
 
-       
+
         const updatedLeaveStatus = await leave.save();
 
         res.status(200).json({
             success: true,
             message: 'Task updated successfully',
-            data:updatedLeaveStatus
+            data: updatedLeaveStatus
         });
 
     } catch (error) {
         res.status(500).json({ success: false, message: 'Error updating task', details: error.message });
     }
 };
+
+
+exports.getAllLeaves = async (req, res) => {
+    try {
+        const leaves = await Leave.find().populate('employeeId');
+        res.status(200).json(leaves);
+    } catch (error) {
+        res.status(500).json({ success: false, message: 'Error fetching data', details: error.message });
+    }
+}

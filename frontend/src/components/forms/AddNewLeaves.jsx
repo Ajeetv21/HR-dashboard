@@ -5,6 +5,7 @@ import Button from "../reusableComponent/button";
 import CloseCircle from "../../assets/icons/close-circle.svg";
 import { Link } from "react-router-dom";
 import Logout from "../Logout";
+import './AddNewLeaves.css'
 
 function AddNewLeaves() {
   return (
@@ -13,8 +14,8 @@ function AddNewLeaves() {
       <div className="background"></div>
 
       <div className="popUp">
-        <div className="heading">
-          <p>Add New Leave</p>
+        <div className="leave-heading">
+          <p style={{color:"black"}}>Add New Leave</p>
           <Link to="/dashboard/leaves">
             {" "}
             <button id="save">
