@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from "react-redux";
-import { fetchEmployees, deleteEmployee, updateEmployee } from "../features/EmployeeSlice";
+import { fetchEmployees, deleteEmployee, updateEmployee, ByNameSearchEmployee, PositionSearchEmployee } from "../features/EmployeeSlice";
 import DropdownMenu from "../pages/DropdownMenu";
 import Search from "../components/reusableComponent/Search";
 import EditEmployeeModal from "../components/forms/EditEmployeeModal";
@@ -11,10 +11,24 @@ function Employee() {
 
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [selectedEmployee, setSelectedEmployee] = useState(null);
+  const [positionFilter, setPositionFilter] = useState('');
+  const [searchName, setSearchName] = useState('');
+
+
 
   useEffect(() => {
-    dispatch(fetchEmployees());
-  }, [dispatch]);
+    if (searchName.trim()) {
+      dispatch(ByNameSearchEmployee({ name: searchName.trim() }));
+    } else if (positionFilter) {
+      dispatch(PositionSearchEmployee({ position: positionFilter||undefined}));
+    } else {
+      dispatch(fetchEmployees());
+    }
+  }, [positionFilter, searchName, dispatch]);
+
+
+
+
 
   const DeleteHandler = (id) => {
     dispatch(deleteEmployee(id));
@@ -37,16 +51,25 @@ function Employee() {
       <div>
         <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 20 }} className="header-group">
           <div style={{ display: "flex", gap: 10 }} className="option">
-            <select style={{ paddingLeft: 10, paddingRight: 10, borderRadius: 50 }}>
-              <option value="All">All</option>
-              <option value="Designer">Designer</option>
-              <option value="Developer">Developer</option>
-              <option value="Human Resource">Human Resource</option>
+            <select style={{ paddingLeft: 10, paddingRight: 10, borderRadius: 50 }} value={positionFilter}
+              onChange={(e) => setPositionFilter(e.target.value)} >
+              <option value="">All</option>
+              <option value="Intern">Intern</option>
+              <option value="Full Time">Full Time</option>
+              <option value="Junior">Junior</option>
+              <option value="senior">senior</option>
+              <option value="Team Lead">Team Lead</option>
             </select>
           </div>
 
           <div style={{ display: "flex", gap: 20 }} className="btngrp">
-            <Search />
+            <input
+              type="search"
+              placeholder="Search by name"
+              value={searchName}
+              onChange={(e) => setSearchName(e.target.value)}
+              style={style.input}
+            />
           </div>
         </div>
 
@@ -105,5 +128,8 @@ function Employee() {
     </div>
   );
 }
+const style = {
 
+  input: { padding: "6px 12px", borderRadius: 50, border: "1px solid #ccc" }
+};
 export default Employee;

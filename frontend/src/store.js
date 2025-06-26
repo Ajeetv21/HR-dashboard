@@ -7,7 +7,7 @@ import LeaveReducer from "./features/leaveSlice"
 const store = configureStore({
     reducer: {
         auth: authReducer,
-        candidate:candidateReducer,
+        candidates:candidateReducer,
         employees:EmployeeReducer,
         leaves:LeaveReducer
     },

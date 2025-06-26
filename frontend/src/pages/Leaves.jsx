@@ -90,14 +90,20 @@ function Leaves() {
                   </td>
 
                   <td>
-                    <a
-                      href={`http://localhost:4000/${leaves.file}`}
+
+                    { item.file ?(
+                        <a
+                      href={`http://localhost:4000/${item.file}`}
                       download
                       target="_blank"
                       rel="noopener noreferrer"
                     >
                       download
-                    </a>
+                    </a>):(
+                      <p>No document</p>
+                    )
+                    }
+                   
 
                   </td>
                 </tr>

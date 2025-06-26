@@ -71,9 +71,9 @@ export const deleteEmployee = createAsyncThunk(
 )
 export const updateEmployee = createAsyncThunk(
     "employee/update",
-    async ({id, updatedData }, { rejectWithValue }) => {
+    async ({ id, updatedData }, { rejectWithValue }) => {
 
-   
+
         try {
             const token = localStorage.getItem('authToken');
 
@@ -90,9 +90,39 @@ export const updateEmployee = createAsyncThunk(
         }
     }
 );
+export const ByNameSearchEmployee = createAsyncThunk(
+    'employee/name',
+    async ({ name }, { rejectWithValue }) => {
+        try {
+            const res = await axiosInstance.get(`emp/search`, {
+                params: { name },
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                }
+            });
+            return res.data;
+        } catch (err) {
+            return rejectWithValue(err.response?.data?.message || "Search failed");
+        }
+    }
+);
 
-
-
+export const PositionSearchEmployee = createAsyncThunk(
+    'employee/position',
+    async ({ position }, { rejectWithValue }) => {
+        try {
+            const res = await axiosInstance.get(`emp/search/position`, {
+                params: { position },
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                }
+            });
+            return res.data;
+        } catch (err) {
+            return rejectWithValue(err.response?.data?.message || "Search failed");
+        }
+    }
+);
 
 const EmployeeSlice = createSlice({
     name: 'employees',
@@ -146,7 +176,32 @@ const EmployeeSlice = createSlice({
                 state.loading = false;
                 state.error = action.payload;
             });
-
+        builder
+            .addCase(ByNameSearchEmployee.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(ByNameSearchEmployee.fulfilled, (state, action) => {
+                state.loading = false;
+                state.employees = action.payload;
+            })
+            .addCase(ByNameSearchEmployee.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
+            });
+        builder
+            .addCase(PositionSearchEmployee.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(PositionSearchEmployee.fulfilled, (state, action) => {
+                state.loading = false;
+                state.employees = action.payload;
+            })
+            .addCase(PositionSearchEmployee.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
+            });
 
     },
 });

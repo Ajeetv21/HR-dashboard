@@ -138,3 +138,36 @@ exports.getCandidate = async (req, res) => {
 
 
 
+exports.searchCandidate = async (req, res) => {
+  try {
+    const { position, status } = req.query;
+    let query = {};
+    if (position) query.position = position;
+    if (status) query.status = status;
+
+    const candidate = await Candidate.find(query);
+    res.status(200).json(candidate);
+  } catch (error) {
+    res.status(500).json({ message: "Something went wrong", error });
+  }
+};
+
+exports.searchByNameCandidate = async (req,res)=>{
+    try {
+      const name = req.query.name;
+
+      const candidate = await Candidate.find({
+            name: { $regex: name, $options: 'i' }, 
+          });
+          res.status(200).json(candidate);
+        
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
+
+
+
+
+
+

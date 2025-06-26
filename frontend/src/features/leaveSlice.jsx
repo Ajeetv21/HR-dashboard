@@ -21,6 +21,38 @@ export const fetchLeaves = createAsyncThunk(
     }
 )
 
+export const createLeave = createAsyncThunk(
+    "leave/create",
+    async ({ name, email, phone, position, status, experience, file }, { rejectWithValue }) => {
+        try {
+            const formData = new FormData();
+            formData.append('name', name);
+            formData.append('email', email);
+            formData.append('phone', phone);
+            formData.append('position', position);
+            formData.append('status', status);
+            formData.append('experience', experience);
+            formData.append('file', file);
+
+            const response = await axiosInstance.post(`/createCandidate`, formData, {
+                headers: {
+                    authorization: `Bearer ${token}`,
+                    'Content-Type': 'multipart/form-data',
+                }
+            });
+            toast.success("Candidate created successfully!");
+            return response.data;
+        } catch (error) {
+            toast.error(error.response?.data?.message || "Candidate creation failed");
+            return rejectWithValue(error.response?.data?.message);
+        }
+    }
+);
+
+
+
+
+
 
 const leaveSlice = createSlice({
     name: 'leaves',
@@ -28,6 +60,7 @@ const leaveSlice = createSlice({
         leaves: [],
         loading: false,
         error: null,
+        createLeave: null
     },
     extraReducers: (builder) => {
 
@@ -45,7 +78,20 @@ const leaveSlice = createSlice({
                 state.loading = false;
                 state.error = action.payload;
             });
-        
+        builder
+            .addCase(createLeave.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(createLeave.fulfilled, (state, action) => {
+                state.loading = false;
+                state.createLeave = action.payload;
+                state.leaves.push(action.payload);
+            })
+            .addCase(createLeave.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
+            });
 
 
     },
