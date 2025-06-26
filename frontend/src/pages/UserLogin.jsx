@@ -19,7 +19,7 @@ function UserLogin() {
     e.preventDefault();
 
     const result =  dispatch(loginUser({ email, password }));
-    console.log(email,password)
+   
     if (loginUser) {
       navigate('/dashboard/candidate');
     }

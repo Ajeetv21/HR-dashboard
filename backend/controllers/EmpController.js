@@ -73,6 +73,19 @@ exports.searchEmployeePosition = async (req, res) => {
     res.status(500).json({ message: "Something went wrong", error });
   }
 };
+exports.searchEmployeeStatus = async (req, res) => {
+  try {
+    const { status } = req.query;
+    let query = {};
+    if (status) query.status = status;
+   
+
+    const employee = await Employee.find(query);
+    res.status(200).json(employee);
+  } catch (error) {
+    res.status(500).json({ message: "Something went wrong", error });
+  }
+};
 
 
 

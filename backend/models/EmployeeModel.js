@@ -14,7 +14,7 @@ const employeeSchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        enum: ['Present', "Absent"],
+        enum: ['Present', "Absent",'Medical Leave','Work from Home'],
         default: "Present",
 
     },

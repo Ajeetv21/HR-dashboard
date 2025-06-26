@@ -48,7 +48,7 @@ function App() {
           <Route path="/dashboard/addNewLeaves" element={<AddNewLeaves />} />
           <Route path="/dashboard/leaves" element={
             <ProtectedRoute>
-              <DashBoard heading="attendance" tag={<Leaves />} />
+              <DashBoard heading="Leave" tag={<Leaves />} />
 
             </ProtectedRoute>
           } />

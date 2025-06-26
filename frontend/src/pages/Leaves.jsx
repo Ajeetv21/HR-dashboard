@@ -6,8 +6,7 @@ import "./Leaves.css";
 import { Link } from "react-router-dom";
 import axios from 'axios'
 import { useDispatch, useSelector } from "react-redux";
-import { fetchLeaves } from "../features/leaveSlice";
-import { fetchCandidate, updateCandidate } from "../features/CandidateSlice";
+import { fetchLeaves, updateLeaveStatus } from "../features/leaveSlice";
 function Leaves() {
 
 
@@ -18,9 +17,7 @@ function Leaves() {
 
   useEffect(() => {
     dispatch(fetchLeaves())
-  }, [])
-
-  console.log(leaves)
+  }, [dispatch])
 
 
   return (
@@ -38,7 +35,7 @@ function Leaves() {
             style={{ paddingLeft: 10, paddingRight: 10, borderRadius: 50 }}
           >
             <option value="All">All</option>
-            <option value="Pendig">Pendig</option>
+            <option value="Pending">Pending</option>
             <option value="Approved">Approved</option>
             <option value="Reject">Reject</option>
           </select>
@@ -78,32 +75,43 @@ function Leaves() {
 
                   <td>
                     <select
+
                       value={item.status}
+                      onChange={(e) => {
+                        const newStatus = e.target.value;
+                        console.log(newStatus);
+                        dispatch(updateLeaveStatus({
+                          id: item._id,
+                          updatedData: { status: newStatus }
+                        })).then(() => {
+                          dispatch(fetchLeaves());
+                        });
+                      }}
                       style={{ color: item.status === "approved" ? "green" : "red" }}
                     >
                       
                       <option value="approved">Approved</option>
                       <option value="pending">Pending</option>
                       <option value="rejected">Rejected</option>
-                     
+
                     </select>
                   </td>
 
                   <td>
 
-                    { item.file ?(
-                        <a
-                      href={`http://localhost:4000/${item.file}`}
-                      download
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      download
-                    </a>):(
+                    {item.file ? (
+                      <a
+                        href={`http://localhost:4000/${item.file}`}
+                        download
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        download
+                      </a>) : (
                       <p>No document</p>
                     )
                     }
-                   
+
 
                   </td>
                 </tr>

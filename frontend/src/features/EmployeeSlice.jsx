@@ -123,6 +123,24 @@ export const PositionSearchEmployee = createAsyncThunk(
         }
     }
 );
+export const statusSearchEmployee = createAsyncThunk(
+    'employee/status',
+    async ({ status }, { rejectWithValue }) => {
+        try {
+            const res = await axiosInstance.get(`employee/search/status`, {
+                params: { status },
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                }
+            });
+            return res.data;
+        } catch (err) {
+            return rejectWithValue(err.response?.data?.message || "Search failed");
+        }
+    }
+);
+
+
 
 const EmployeeSlice = createSlice({
     name: 'employees',
@@ -202,6 +220,20 @@ const EmployeeSlice = createSlice({
                 state.loading = false;
                 state.error = action.payload;
             });
+
+        builder
+            .addCase(statusSearchEmployee.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(statusSearchEmployee.fulfilled, (state, action) => {
+                state.loading = false;
+                state.employees = action.payload;
+            })
+            .addCase(statusSearchEmployee.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
+            });    
 
     },
 });

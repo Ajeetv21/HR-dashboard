@@ -50,6 +50,28 @@ export const createLeave = createAsyncThunk(
 );
 
 
+export const updateLeaveStatus = createAsyncThunk(
+    "leave/update",
+    async ({ id, updatedData }, { rejectWithValue }) => {
+
+
+        try {
+            const token = localStorage.getItem('authToken');
+
+            const res = await axiosInstance.put(`/lv/update/${id}`, updatedData, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                }
+            });
+
+            return res.data;
+
+        } catch (error) {
+            return rejectWithValue(error.response?.data?.message || "Failed to update leave");
+        }
+    }
+);
+
 
 
 
@@ -92,6 +114,24 @@ const leaveSlice = createSlice({
                 state.loading = false;
                 state.error = action.payload;
             });
+        builder
+            .addCase(updateLeaveStatus.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(updateLeaveStatus.fulfilled, (state, action) => {
+                state.loading = false;
+                const index = state.leaves.findIndex(leave => leave._id === action.payload._id);
+                if (index !== -1) {
+                    state.leaves[index] = action.payload;
+                }
+            })
+            .addCase(updateLeaveStatus.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
+            });
+
+
 
 
     },
