@@ -11,13 +11,16 @@ const candidateRoute = require("./routes/candidateRoute");
 const attendanceRoute = require("./routes/attendanceRoute");
 const profileRoute = require("./routes/ProfileRoute");
 const leaveRoute = require("./routes/LeaveRoute");
+const leave = require('./models/LeaveModel')
 
 const app = express();
 const PORT = 4000;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors());
+app.use(cors({
+  credentials: true
+}));
 connectDB();
 
 app.use("/files", express.static("files"));
@@ -35,8 +38,10 @@ app.use('/api/v1',leaveRoute)
 
 
 app.get("/", (req, res) => {
-    res.send("hello")
+    const leave = leave.find();
+    res.send(leave)
 });
+
 
 app.listen(PORT, () => {
     console.log(`App is running at ${PORT}`);

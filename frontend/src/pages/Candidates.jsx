@@ -133,11 +133,7 @@ function Candidates() {
           </tr>
         </thead>
         <tbody>
-          {loading ? (
-            <tr><td colSpan="9">Loading...</td></tr>
-          ) : candidates.length === 0 ? (
-            <tr><td colSpan="9">No candidates found.</td></tr>
-          ) : (
+         {
             candidates.map((candidate, index) => (
               <tr key={candidate._id}>
                 <td>{index + 1}</td>
@@ -188,7 +184,7 @@ function Candidates() {
                 </td>
               </tr>
             ))
-          )}
+}
         </tbody>
       </table>
     </div>

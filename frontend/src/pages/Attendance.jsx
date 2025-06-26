@@ -41,10 +41,12 @@ function Employee() {
         <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 20 }} className="header-group">
           <div style={{ display: "flex", gap: 10 }} className="option ">
             <select style={{ paddingLeft: 10, paddingRight: 10, borderRadius: 50 }}>
-              <option value="All">All</option>
-              <option value="Designer">Designer</option>
-              <option value="Developer">Developer</option>
-              <option value="Human Resource">Human Resource</option>
+              <option value="">All</option>
+              <option value="Present">Present</option>
+              <option value="Absent">Absent</option>
+              <option value="Medical Leave">Medical Leave</option>
+              <option value="Work from Home">Work from Home</option>
+
             </select>
           </div>
 

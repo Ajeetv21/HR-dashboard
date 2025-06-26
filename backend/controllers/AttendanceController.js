@@ -117,3 +117,19 @@ exports.createAttendance = async (req, res) => {
     }
 };
 
+exports.searchAttendanceStatus = async (req, res) => {
+  try {
+    const { status } = req.query;
+
+ 
+    let query = {};
+    if (status) query.status = status;
+   
+
+    const attendance = await Attendance.find(query);
+    res.status(200).json(attendance);
+  } catch (error) {
+    res.status(500).json({ message: "Something went wrong", error });
+  }
+};
+

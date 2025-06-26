@@ -6,7 +6,7 @@ const attendanceSchema = new mongoose.Schema({
     tasks: { type: String,},
     status: { 
                 type: String, 
-                enum: ['Present',"Absent"], 
+                enum: ['Present',"Absent","Medical Leave","Work from Home"], 
 
         },
 
