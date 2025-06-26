@@ -11,7 +11,6 @@ const candidateRoute = require("./routes/candidateRoute");
 const attendanceRoute = require("./routes/attendanceRoute");
 const profileRoute = require("./routes/ProfileRoute");
 const leaveRoute = require("./routes/LeaveRoute");
-const leave = require('./models/LeaveModel')
 
 const app = express();
 const PORT = 4000;
@@ -38,8 +37,7 @@ app.use('/api/v1',leaveRoute)
 
 
 app.get("/", (req, res) => {
-    const leave = leave.find();
-    res.send(leave)
+    res.send("hello")
 });
 
 
