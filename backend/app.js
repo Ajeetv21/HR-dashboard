@@ -37,6 +37,10 @@ app.use('/api/v1', leaveRoute)
 
 
 
+app.get("/", (req, res) => {
+    res.send("hello")
+});
+
 
 app.listen(PORT, () => {
     console.log(`App is running at ${PORT}`);
