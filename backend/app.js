@@ -17,7 +17,10 @@ const PORT = 4000;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors());
+app.use(cors({
+    origin: ['http://localhost:5173', 'https://hr-dashboard-rosy.vercel.app/'],
+    credentials: true,
+}));
 connectDB();
 
 app.use("/files", express.static("files"));
@@ -29,7 +32,7 @@ app.use('/api/v1', candidateRoute);
 app.use('/api/v1', employeeRoute);
 app.use('/api/v1', authRoute);
 app.use('/api/v1', profileRoute);
-app.use('/api/v1',leaveRoute)
+app.use('/api/v1', leaveRoute)
 
 
 
