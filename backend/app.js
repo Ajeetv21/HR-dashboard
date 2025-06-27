@@ -1,47 +1,36 @@
-require("dotenv").config();
-const express = require("express");
-const multer = require('multer');
-const cors = require("cors");
+const express = require('express');
+const cors = require('cors');
 const path = require('path');
-const connectDB = require("./config/db");
-const bodyParser = require('body-parser');
-const employeeRoute = require("./routes/EmployeeRoute");
-const authRoute = require("./routes/authRoute");
-const candidateRoute = require("./routes/candidateRoute");
-const attendanceRoute = require("./routes/attendanceRoute");
-const profileRoute = require("./routes/ProfileRoute");
-const leaveRoute = require("./routes/LeaveRoute");
+const connectDB = require('./config/db');
+
+// Connect to MongoDB
+connectDB();
 
 const app = express();
-const PORT = 4000;
 
+// Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors({
-    origin: ['http://localhost:5173', 'https://hr-dashboard-rosy.vercel.app'],
-    credentials: true,
+  origin: ['http://localhost:5173', 'https://your-frontend.vercel.app'],
+  credentials: true,
 }));
-connectDB();
 
-app.use("/files", express.static("files"));
+// Static files
 app.use('/files', express.static(path.join(__dirname, 'files')));
 app.use(express.static('uploads'));
 
-app.use('/api/v1', attendanceRoute);
-app.use('/api/v1', candidateRoute);
-app.use('/api/v1', employeeRoute);
-app.use('/api/v1', authRoute);
-app.use('/api/v1', profileRoute);
-app.use('/api/v1', leaveRoute)
+// Routes
+app.use('/api/v1', require('./routes/attendanceRoute'));
+app.use('/api/v1', require('./routes/candidateRoute'));
+app.use('/api/v1', require('./routes/EmployeeRoute'));
+app.use('/api/v1', require('./routes/authRoute'));
+app.use('/api/v1', require('./routes/profileRoute'));
+app.use('/api/v1', require('./routes/leaveRoute'));
 
-
-
-
-app.get("/", (req, res) => {
-    res.send("hello")
+// Test route
+app.get('/', (req, res) => {
+  res.send('Hello from Express on Vercel!');
 });
 
-
-app.listen(PORT, () => {
-    console.log(`App is running at ${PORT}`);
-});
+module.exports = app; // Don't call app.listen here
