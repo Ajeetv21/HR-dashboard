@@ -1,47 +1,48 @@
 import React, { useState } from "react";
 import DashBoard from "../DashBoard";
 import Leaves from "../../pages/Leaves";
-import Button from "../reusableComponent/button";
 import CloseCircle from "../../assets/icons/close-circle.svg";
 import { Link } from "react-router-dom";
-import Logout from "../Logout";
 import './AddNewLeaves.css';
 import { ByNameSearchEmployee } from "../../features/EmployeeSlice";
 import { useDispatch, useSelector } from "react-redux";
+import { createLeave } from "../../features/leaveSlice";
 
 function AddNewLeaves() {
   const dispatch = useDispatch();
   const [nameInput, setNameInput] = useState("");
   const [designation, setDesignation] = useState("");
-  const [leavedate, setLeavedate] = useState("");
+  const [LeaveDate, setLeaveDate] = useState("");
   const [reason, setReason] = useState("");
   const [file, setFile] = useState(null);
   const [showSuggestions, setShowSuggestions] = useState(false);
+  const [selectedEmployeeId, setSelectedEmployeeId] = useState("");
 
   const { employees } = useSelector((state) => state.employees);
-
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    const formData = new FormData();
+    formData.append("employeeId", selectedEmployeeId);
+    formData.append("designation", designation);
+    formData.append("LeaveDate", LeaveDate);
+    formData.append("reason", reason);
+    formData.append("file", file);
+
     try {
-      dispatch(createCandidate({ name:nameInput, email, phone, position, status, experience, file }));
+      dispatch(createLeave(formData));
+      setNameInput("");
+      setSelectedEmployeeId("");
+      setDesignation("");
+      setLeaveDate("");
+      setReason("");
+      setFile(null);
+      setShowSuggestions(false);
     } catch (error) {
-      console.log(error.message);
+      console.error(error.message);
     }
-    setName("");
-    setEmail("");
-    setPhone("");
-    setPosition("");
-    setStatus("New");
-    setExperience("");
-    setFile(null);
   };
-
-
-
-
-
 
   const handleNameChange = (e) => {
     const value = e.target.value;
@@ -54,8 +55,9 @@ function AddNewLeaves() {
     }
   };
 
-  const handleNameSelect = (name) => {
+  const handleNameSelect = (name, id) => {
     setNameInput(name);
+    setSelectedEmployeeId(id);
     setShowSuggestions(false);
   };
 
@@ -74,12 +76,10 @@ function AddNewLeaves() {
           </Link>
         </div>
 
-        <form action="">
+        <form onSubmit={handleSubmit}>
           <div className="input-group">
             <input
               type="text"
-              name="full name"
-              id="fullname"
               placeholder="Full Name"
               value={nameInput}
               onChange={handleNameChange}
@@ -92,7 +92,7 @@ function AddNewLeaves() {
                   <div
                     key={emp._id}
                     className="suggestion-item"
-                    onClick={() => handleNameSelect(emp.EmployeeName)}
+                    onClick={() => handleNameSelect(emp.EmployeeName, emp._id)}
                   >
                     {emp.EmployeeName}
                   </div>
@@ -103,42 +103,37 @@ function AddNewLeaves() {
 
           <input
             type="text"
-            name="designation"
-            id="designation"
             placeholder="Designation"
+            value={designation}
+            onChange={(e) => setDesignation(e.target.value)}
             required
           />
 
           <input
             type="date"
-            name="leavedate"
-            id="leavedate"
-            placeholder="Leave Date"
+            value={LeaveDate}
+            onChange={(e) => setLeaveDate(e.target.value)}
           />
 
           <input
             type="text"
-            name="reason"
-            id="reason"
             placeholder="Reason"
+            value={reason}
+            onChange={(e) => setReason(e.target.value)}
             required
           />
 
           <input
             type="file"
-            name="attachment"
-            id="attachment"
-            placeholder="Attachment"
+            onChange={(e) => setFile(e.target.files[0])}
             required
           />
+
+          <div className="bottom">
+            <button type="submit" className="custom-button">Save</button>
+          </div>
         </form>
-
-        <div className="bottom">
-          <Button text="Save" />
-        </div>
       </div>
-
-      <Logout />
     </div>
   );
 }

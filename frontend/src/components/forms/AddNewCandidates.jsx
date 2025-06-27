@@ -24,6 +24,7 @@ function AddNewCandidates() {
 
         try {
             dispatch(createCandidate({ name, email, phone, position, status, experience, file }));
+            console.log(name,email)
         } catch (error) {
             console.log(error.message);
         }

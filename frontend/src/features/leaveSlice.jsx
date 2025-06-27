@@ -22,32 +22,25 @@ export const fetchLeaves = createAsyncThunk(
 )
 
 export const createLeave = createAsyncThunk(
-    "leave/create",
-    async ({ name, email, phone, position, status, experience, file }, { rejectWithValue }) => {
-        try {
-            const formData = new FormData();
-            formData.append('name', name);
-            formData.append('email', email);
-            formData.append('phone', phone);
-            formData.append('position', position);
-            formData.append('status', status);
-            formData.append('experience', experience);
-            formData.append('file', file);
-
-            const response = await axiosInstance.post(`/createCandidate`, formData, {
-                headers: {
-                    authorization: `Bearer ${token}`,
-                    'Content-Type': 'multipart/form-data',
-                }
-            });
-            toast.success("Candidate created successfully!");
-            return response.data;
-        } catch (error) {
-            toast.error(error.response?.data?.message || "Candidate creation failed");
-            return rejectWithValue(error.response?.data?.message);
+  "leave/create",
+  async (formData, { rejectWithValue }) => {
+    try {
+      const token = localStorage.getItem("authToken");
+      const res = await axiosInstance.post(`/createLeave`, formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'multipart/form-data',
         }
+      });
+      toast.success("Leave created successfully!");
+      return res.data;
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Leave creation failed");
+      return rejectWithValue(error.response?.data?.message);
     }
+  }
 );
+
 
 
 export const updateLeaveStatus = createAsyncThunk(
@@ -72,6 +65,23 @@ export const updateLeaveStatus = createAsyncThunk(
     }
 );
 
+
+export const statusSearch = createAsyncThunk(
+    'leave/status',
+    async ({ status }, { rejectWithValue }) => {
+        try {
+            const res = await axiosInstance.get(`leave/search/status`, {
+                params: { status },
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                }
+            });
+            return res.data;
+        } catch (err) {
+            return rejectWithValue(err.response?.data?.message || "Search failed");
+        }
+    }
+);
 
 
 
@@ -131,6 +141,20 @@ const leaveSlice = createSlice({
                 state.error = action.payload;
             });
 
+
+          builder
+            .addCase(statusSearch.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(statusSearch.fulfilled, (state, action) => {
+                state.loading = false;
+                state.leaves = action.payload;
+            })
+            .addCase(statusSearch.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
+            });
 
 
 

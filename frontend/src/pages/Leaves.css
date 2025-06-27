@@ -3,7 +3,16 @@
 .leaveData {
     display: flex;
     justify-content: space-between;
+     height:80vh;
+
 }
+.leaveData-table{
+    width: 50vw;
+  
+}
+
+
+
 
 .leaveData table {
     height: 50px;
@@ -74,15 +83,39 @@
 
 
 .container {
+    overflow-y: auto;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    flex-direction: column;
     gap: 5px;
 }
+ul
+{
+    display: flex; gap:2vw;
+    width: 90%;
+    height: 30px;
 
-.container img {
-    height: 50px;
-    width: 50px;
-    border-radius: 50%;
+    box-shadow: 5px 5px 5px  0px gray;
+    background-color: rgba(170, 169, 169, 0.055);
+    border-radius: 10px;
+    padding: 10px;
+    align-items: center;
+}
+.header-group{
+    overflow-y: auto;
+}
+.scrollable-leaves {
+  max-height: 200px;  /* adjust based on your design */
+  overflow-y: auto;
+  padding-right: 8px; /* avoid cutting off scrollbar */
+}
+
+/* Optional: Smooth scroll behavior */
+.scrollable-leaves::-webkit-scrollbar {
+  width: 6px;
+}
+
+.scrollable-leaves::-webkit-scrollbar-thumb {
+  background-color: #ccc;
+  border-radius: 4px;
 }
 

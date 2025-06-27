@@ -43,7 +43,7 @@ exports.createCandidate = async (req, res) => {
         if (!name || !email || !phone || !status || !position || !experience) {
             return res.status(400).json({ success: false, message: 'All fields and file are required' });
         }
-             // Create new candidate
+           
         const candidate = new Candidate({
             name,
             email,
